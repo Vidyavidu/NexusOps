@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  EMPLOYEE
+}
+
+enum TicketType {
+  INCIDENT
+  PROBLEM
+  CHANGE
+  REQUEST
+}
+
+model User {
+  id         String   @id @default(cuid())
+  email      String   @unique
+  password   String
+  name       String
+  employeeId String?
+  phone      String?
+  department String?
+  role       Role     @default(USER)
+  createdAt  DateTime @default(now())
+
+  openedTickets   Ticket[] @relation("OpenedTickets")
+  assignedTickets Ticket[] @relation("AssignedTickets")
+  activities      Activity[]
+}
+
+model Ticket {
+  id               String     @id @default(cuid())
+  number           String     @unique
+  type             TicketType
+  shortDescription String
+  description      String?
+  state            String
+  impact           Int        @default(3)
+  urgency          Int        @default(3)
+  priority         Int        @default(5)
+  category         String?
+  assignmentGroup  String?
+
+  openedById String
+  openedBy   User   @relation("OpenedTickets", fields: [openedById], references: [id])
+
+  assignedToId String?
+  assignedTo   User?   @relation("AssignedTickets", fields: [assignedToId], references: [id])
+
+  rootCause  String?
+  workaround String?
+
+  changeType String?
+  riskLevel  String?
+
+  requestedItem String?
+  stage         String?
+
+  resolutionCode  String?
+  resolutionNotes String?
+  closedAt        DateTime?
+
+  parentId String?
+  parent   Ticket?  @relation("ProblemChildren", fields: [parentId], references: [id])
+  children Ticket[] @relation("ProblemChildren")
+
+  activities Activity[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Activity {
+  id        String   @id @default(cuid())
+  ticketId  String
+  ticket    Ticket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  kind      String
+  field     String?
+  oldValue  String?
+  newValue  String?
+  body      String?
+  createdAt DateTime @default(now())
+}
+
+model Counter {
+  prefix String @id
+  value  Int    @default(1000)
+}

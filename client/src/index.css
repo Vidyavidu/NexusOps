@@ -1,0 +1,115 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0f1115;
+  --panel: #171a21;
+  --panel-light: #1e222b;
+  --border: #2a2f3a;
+  --text: #e4e6eb;
+  --text-dim: #8a8f9c;
+  --accent: #f5a623;
+  --accent-dim: #a8741c;
+  --danger: #e5484d;
+  --success: #3ecf8e;
+  --info: #4a9eff;
+  --radius: 3px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", -apple-system, sans-serif;
+  font-size: 14px;
+}
+
+code, .mono, .ticket-number { font-family: "Consolas", "SF Mono", monospace; }
+
+button {
+  background: var(--accent);
+  color: #14161b;
+  border: none;
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 13px;
+  letter-spacing: 0.3px;
+}
+button:hover { background: #ffb84d; }
+button:disabled { background: var(--border); color: var(--text-dim); cursor: not-allowed; }
+button.secondary { background: transparent; border: 1px solid var(--border); color: var(--text); }
+button.secondary:hover { background: var(--panel-light); }
+button.danger { background: var(--danger); color: white; }
+
+input, select, textarea {
+  background: var(--panel-light);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  width: 100%;
+  font-family: inherit;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+  margin-top: 12px;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+table { width: 100%; border-collapse: collapse; }
+th {
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-dim);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+}
+td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+tbody tr { cursor: pointer; transition: background 0.1s; }
+tbody tr:hover { background: var(--panel-light); }
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.badge-p1 { background: rgba(229,72,77,0.15); color: var(--danger); }
+.badge-p2 { background: rgba(245,166,35,0.15); color: var(--accent); }
+.badge-p3 { background: rgba(74,158,255,0.15); color: var(--info); }
+.badge-p4, .badge-p5 { background: rgba(138,143,156,0.15); color: var(--text-dim); }
+
+.badge-state {
+  background: var(--panel-light);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
