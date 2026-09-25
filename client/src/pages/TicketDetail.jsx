@@ -66,6 +66,15 @@ function TicketDetail({ endpoint }) {
       setError(err.response?.data?.error || "Could not add note");
     }
   }
+  async function handleDelete() {
+  if (!window.confirm(`Delete ${ticket.number}? This cannot be undone.`)) return;
+  try {
+    await api.delete(`/${endpoint}/${number}`);
+    navigate(`/${endpoint}`);
+  } catch (err) {
+    setError(err.response?.data?.error || "Could not delete record");
+  }
+}
 
   if (error && !ticket) return <Layout><p style={{ color: "#e5484d" }}>{error}</p></Layout>;
   if (!ticket) return <Layout><p>Loading...</p></Layout>;
@@ -85,6 +94,9 @@ function TicketDetail({ endpoint }) {
           <StateBadge state={ticket.state} />
           <PriorityBadge priority={ticket.priority} />
           <SlaBadge ticket={ticket} />
+           {user?.role === "EMPLOYEE" && (
+             <button className="danger" onClick={handleDelete} style={{ marginLeft: "8px" }}>Delete</button>
+           )}
         </div>
       </div>
 
@@ -183,5 +195,4 @@ function TicketDetail({ endpoint }) {
     </Layout>
   );
 }
-
 export default TicketDetail;

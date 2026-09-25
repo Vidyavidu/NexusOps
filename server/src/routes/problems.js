@@ -104,5 +104,14 @@ router.patch("/:number", requireAuth, requireEmployee, async (req, res) => {
     res.status(500).json({ error: "Something went wrong updating the problem" });
   }
 });
+async function handleDelete() {
+  if (!window.confirm(`Delete ${ticket.number}? This cannot be undone.`)) return;
+  try {
+    await api.delete(`/${endpoint}/${number}`);
+    navigate(`/${endpoint}`);
+  } catch (err) {
+    setError(err.response?.data?.error || "Could not delete record");
+  }
+}
 
 export default router;
